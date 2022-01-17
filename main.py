@@ -2,21 +2,9 @@
 
 from os.path import basename, splitext
 import tkinter as tk
+import random
 
 # from tkinter import ttk
-
-
-class About(tk.Toplevel):
-    def __init__(self, parent):
-        super().__init__(parent, class_=parent.name)
-        self.config()
-
-        btn = tk.Button(self, text="Konec", command=self.close)
-        btn.pack()
-
-    def close(self):
-        self.destroy()
-
 
 class Application(tk.Tk):
     name = basename(splitext(basename(__file__.capitalize()))[0])
@@ -33,9 +21,36 @@ class Application(tk.Tk):
         self.btn2 = tk.Button(self, text="About", command=self.about)
         self.btn2.pack()
 
+    def generuj(self):
+        self.funkce = random.choice([self.plus, self.minus, self.krat, self.deleno])
+        self.funkce()
+        if self.funkce == self.minus:
+            print("jo")
+        else:
+            print("ne")
+
+    def plus(self):
+        # vygeneruje příklad na sčítání
+        self.cisloA = random.randint(1, 99)
+        self.cisloB = random.randint(1, 100 - self.cisloA)
+        self.vysledek = self.cisloA + self.cisloB
+        self.lbl.config(text="+")
+
+    def minus(self):
+        self.lbl.config(text="-")
+
+    def krat(self):
+        self.lbl.config(text="*")
+
+    def deleno(self):
+        # vygeneruje příklad na celočíselné dělení
+        self.cisloB = random.randint(1, 9)
+        self.vysledek = random.randint(1, 9)
+        self.cisloA = self.cisloB * self.vysledek
+        self.lbl.config(text="/")
+
     def about(self):
-        window = About(self)
-        window.grab_set()
+        self.plus
 
     def quit(self, event=None):
         super().quit()
